@@ -20,10 +20,12 @@ const Signup = () => {
       });
 
       const data = await res.json();
-      // if (!res.ok) {
-      //   throw new Error(data.message);
-      // }
-      console.log(data, "😁😁😁😀");
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+      console.log(data, "user data here");
+
+      // res.status(201).send({ message: "User created successfully" });
     } catch (err) {
       console.error(err);
     }
