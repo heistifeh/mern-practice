@@ -29,7 +29,7 @@ export const signInLogic = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) return next(errorHandler(404, "user not found"));
+    if (!user) return next(errorHandler(404, "user not found bro"));
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) return next(errorHandler(404, "wrong credentials"));
 

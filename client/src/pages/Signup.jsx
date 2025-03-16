@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 const Signup = () => {
   const [formData, setFormData] = useState({});
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -11,6 +12,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
+      setError(null);
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -22,12 +25,18 @@ const Signup = () => {
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message);
+        setLoading(false);
+        setError(data.message);
       }
       console.log(data, "user data here");
+      setLoading(false);
+      setError(null);
 
       // res.status(201).send({ message: "User created successfully" });
     } catch (err) {
       console.error(err);
+      setLoading(false);
+      setError(err.message);
     }
     // console.log("submitted");
   };
@@ -57,10 +66,14 @@ const Signup = () => {
             type="password"
             className="bg-white outline-none border-o"
           />
-          <button className="text-white bg-red-600 hover:opacity-80 my-4 p-2">
-            Sign up
+          <button
+            disabled={loading}
+            className="text-white bg-red-600 hover:opacity-80 my-4 p-2"
+          >
+            {loading ? "loading..." : "Sign Up"}
           </button>
         </form>
+        {error && <p className="text-red-600">{error}</p>}
       </div>
     </div>
   );
