@@ -19,7 +19,7 @@ export const signUpLogic = async (req, res, next) => {
 
     res.status(201).send({ message: "User created successfully" });
   } catch (error) {
-    next(errorHandler(505, "error from my function fuck.😡"));
+    next(error);
   }
 };
 
